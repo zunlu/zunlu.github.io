@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Absurd的博客</title>
+    <link rel='stylesheet' href='css/GitHub2.css' type='text/css'/>
+    <link rel='stylesheet' href='css/style.css' type='text/css'/>
+    <link rel="stylesheet" href="css/highlight.css">
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/director.min.js"></script>
+    <script src="js/ractive.min.js"></script>
+    <script src="js/marked.min.js"></script>
+    <script src="config.js"></script>
+    <!--<script src="http://static.duoshuo.com/embed.js"></script>-->
+    <script src="http://apps.bdimg.com/libs/highlight.js/8.6/highlight.min.js"></script>
+</head>
+<body>
+    <div id="header"><h1><a href="#/" class="blog_title">Absurd的博客 <input type="text" name="q" id="seaKey" placeholder="Search Blog" aria-label="Search Blog" data-unscoped-placeholder="Search Blog" data-scoped-placeholder="Search" autocapitalize="off"><button  onclick='window.location.href="#search/"+document.getElementById("seaKey").value'>搜索</button></h1>
+</div>
+<a href="http://www.jianshu.com/u/2af900e04c05">简书</a>
+<div id="container">
+    <center><img src="loading.gif" alt="loading" class="loading"></center>
+</div>
+<script type="text/ractive" id="listTpl">
+    <ul class="postlist">
+        {{#posts}}
+        <li class="postlist"><a href="#post/{{number}}">{{title}}</a><span class="datetime">{{formatTime(created_at)}}</span></li>
+        {{/posts}}
+    </ul>
+    {{#prev}}<a href="#p{{page-1}}" class="prev">上一页</a>{{/prev}}
+    {{#next}}<a href="#p{{page+1}}" class="next">下一页</a>{{/next}}
+
+</script>
+<div id="labels"></div>
+<script type="text/ractive" id="listLab">
+    <ul class="postlist">
+        {{#labels}}
+         <span class="label">
+        <a href="https://github.com/www1350/javaweb/issues?q=is%3Aissue+is%3Aopen+label%3A{{name}}" aria-label="{{name}}" class="label v-align-text-top labelstyle-d4c5f9 linked-labelstyle-d4c5f9 tooltipped tooltipped-n" style="background-color: #{{color}}; color: #2b2833;">
+            {{name}}
+        </a></span>
+        {{/labels}}
+    </ul>
+</script>
+
+
+<script type="text/ractive" id="detailTpl">
+    {{#post}}
+     <h1>
+          <center>{{title}}</center>
+          <span class="create_at fr">发表于 {{formatTime(created_at)}}</span>
+       </h1>
+      <h3 >标签
+        {{#labels}}
+        <span class="label">
+        <a href="https://github.com/www1350/javaweb/issues?q=is%3Aissue+is%3Aopen+label%3A{{name}}" aria-label="{{name}}" class="label v-align-text-top labelstyle-d4c5f9 linked-labelstyle-d4c5f9 tooltipped tooltipped-n" style="background-color: #{{color}}; color: #2b2833;">
+            {{name}}
+        </a></span>
+        {{/labels}}
+       </h3>
+
+     <div class="content">{{{markdown2HTML(body)}}}</div>
+    {{/post}}
+
+</script>
+
+
+<script src="app.js"></script>
+
+
+<!--<code  style="white-space:pre" >
+          _____                    _____                    _____                    _____                    _____                    _____          
+         /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \         
+        /::\    \                /::\    \                /::\    \                /::\____\                /::\    \                /::\    \        
+       /::::\    \              /::::\    \              /::::\    \              /:::/    /               /::::\    \              /::::\    \       
+      /::::::\    \            /::::::\    \            /::::::\    \            /:::/    /               /::::::\    \            /::::::\    \      
+     /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/    /               /:::/\:::\    \          /:::/\:::\    \     
+    /:::/__\:::\    \        /:::/__\:::\    \        /:::/__\:::\    \        /:::/    /               /:::/__\:::\    \        /:::/  \:::\    \    
+   /::::\   \:::\    \      /::::\   \:::\    \       \:::\   \:::\    \      /:::/    /               /::::\   \:::\    \      /:::/    \:::\    \   
+  /::::::\   \:::\    \    /::::::\   \:::\    \    ___\:::\   \:::\    \    /:::/    /      _____    /::::::\   \:::\    \    /:::/    / \:::\    \  
+ /:::/\:::\   \:::\    \  /:::/\:::\   \:::\ ___\  /\   \:::\   \:::\    \  /:::/____/      /\    \  /:::/\:::\   \:::\____\  /:::/    /   \:::\ ___\ 
+/:::/  \:::\   \:::\____\/:::/__\:::\   \:::|    |/::\   \:::\   \:::\____\|:::|    /      /::\____\/:::/  \:::\   \:::|    |/:::/____/     \:::|    |
+\::/    \:::\  /:::/    /\:::\   \:::\  /:::|____|\:::\   \:::\   \::/    /|:::|____\     /:::/    /\::/   |::::\  /:::|____|\:::\    \     /:::|____|
+ \/____/ \:::\/:::/    /  \:::\   \:::\/:::/    /  \:::\   \:::\   \/____/  \:::\    \   /:::/    /  \/____|:::::\/:::/    /  \:::\    \   /:::/    / 
+          \::::::/    /    \:::\   \::::::/    /    \:::\   \:::\    \       \:::\    \ /:::/    /         |:::::::::/    /    \:::\    \ /:::/    /  
+           \::::/    /      \:::\   \::::/    /      \:::\   \:::\____\       \:::\    /:::/    /          |::|\::::/    /      \:::\    /:::/    /   
+           /:::/    /        \:::\  /:::/    /        \:::\  /:::/    /        \:::\__/:::/    /           |::| \::/____/        \:::\  /:::/    /    
+          /:::/    /          \:::\/:::/    /          \:::\/:::/    /          \::::::::/    /            |::|  ~|               \:::\/:::/    /     
+         /:::/    /            \::::::/    /            \::::::/    /            \::::::/    /             |::|   |                \::::::/    /      
+        /:::/    /              \::::/    /              \::::/    /              \::::/    /              \::|   |                 \::::/    /       
+        \::/    /                \::/____/                \::/    /                \::/____/                \:|   |                  \::/____/        
+         \/____/                  ~~                       \/____/                  ~~                       \|___|                   ~~              
+                                                                                                                                                      
+</code>-->
+</body>
+</html>
